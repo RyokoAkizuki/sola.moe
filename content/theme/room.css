@@ -1,0 +1,93 @@
+@import url(common.css);
+@import url(role.css);
+
+#container-page {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+#layer-room-bg {
+    background-attachment: fixed;
+    background-position:center;
+    background-repeat: no-repeat;
+}
+
+#layer-room-role-matched {
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#layer-room-chatbox {
+    bottom: 0px;
+    height: 20%;
+}
+
+#layer-room-chatbox-bg {
+    background-color: white;
+    opacity: 0.8;
+    height: 100%;
+}
+
+#layer-room-chatbox-text-wrap {
+    height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0 24px;
+    margin: 16px 0;
+}
+
+#layer-room-chatbox-text {
+    height: 100%;
+}
+
+.chattext {
+    display: block;
+    font-size: 32px; 
+}
+
+#chat-text-wrapper {
+    padding: 0 10%;
+    font-size: 24px;
+    display: table-cell;
+    position: relative;
+}
+
+#chat-text-spliter {
+    height: 8px;
+}
+
+#chat-text-player {
+    text-align: right;
+    width: 100%;
+    background: white;
+    border: none;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    opacity: 0.5;
+}
+
+#chat-text-player:focus {
+    border: 1px solid #8bb7e4;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #eee;
+    opacity: 1.0;
+}
+
+@media all and (orientation:landscape) {
+    
+#layer-room-role-matched {
+    background-size: auto 150%;
+    background-position: center top;
+}
+
+}
+
+@media all and (orientation:portrait) {
+
+#layer-room-role-matched {
+    background-size: 150% auto;
+    background-position: center top;
+}
+
+}

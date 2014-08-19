@@ -1,0 +1,25 @@
+.role-avatar-middle {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background-size: 128px 128px;
+    margin: 16px;
+    display: inline-block;
+}
+
+.role-avatar-middle:hover {
+    box-shadow: 0 0 5px #888888;
+}
+
+.role-avatar-small {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-size: 64px 64px;
+    margin: 8px;
+    display: inline-block;
+}
+
+.role-avatar-small:hover {
+    box-shadow: 0 0 5px #888888;
+}

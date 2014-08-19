@@ -1,0 +1,73 @@
+@import url(common.css);
+@import url(role.css);
+
+.container-bgimage {
+    background-image: url(bg-home.jpg);
+    background-attachment: fixed;
+    background-position:center;
+    background-repeat: no-repeat;
+}
+
+#container-page {
+    height: 100%;
+    width: 100%;
+}
+
+#login {
+	box-shadow: 0 0 5px #eee;
+    margin: auto;
+    text-align: center;
+}
+
+#layer-login-content {
+    border: 1px solid white;
+    box-shadow: 0 0 5px #eee;
+}
+
+#role-select-submit {
+    line-height: 32px;
+    font-size: 32px;
+    height: 64px;
+    width: 256px;
+    background-color: white;
+    color: #8bb7e4;
+}
+
+#role-select-submit:hover {
+    background-color: #8bb7e4;
+    color: white;
+}
+
+.role-select-title {
+    display: block;
+    text-align: center;
+}
+
+@media all and (orientation:landscape) {
+
+#login {
+    height: 360px;
+    width: 512px;
+}
+
+#role-container {
+    width: inherit;
+    margin: 48px 0 32px 0;
+}
+
+}
+
+@media all and (orientation:portrait) {
+
+#login {
+    height: 450px;
+    width: 80%;
+    min-width: 260px;
+}
+
+#role-container {
+    width: inherit;
+    margin: 16px auto;
+}
+
+}

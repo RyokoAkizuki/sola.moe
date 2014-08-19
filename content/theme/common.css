@@ -1,0 +1,98 @@
+* {
+    transition-duration: 0.5s;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial,sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    color: #333;
+    background-color: #fff;
+}
+
+a, a:hover, a:active {
+    text-decoration: none;
+}
+
+.blur {
+    -webkit-filter: blur(8px) contrast(0.5) brightness(1.4);
+    -moz-filter: blur(8px) contrast(0.5) brightness(1.4);
+    -o-filter: blur(8px) contrast(0.5) brightness(1.4);
+    -ms-filter: blur(8px) contrast(0.5) brightness(1.4);
+    filter: blur(8px) contrast(0.5) brightness(1.4);
+}
+
+.button {
+    padding: 16px 48px;
+    margin: 16px auto 16px auto;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+}
+
+.button:hover {
+    box-shadow: 0 0 5px #888888;
+}
+
+.layer-inner {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+}
+
+.vertical-middle-container {
+    display: table;
+}
+
+.vertical-middle {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.hidden {
+    display: none;
+}
+
+.drop-shadow {
+    -webkit-filter: drop-shadow(0 1px 5px rgba(0,0,0,.5));
+    -moz-filter: drop-shadow(0 1px 5px rgba(0,0,0,.5));
+    -ms-filter: drop-shadow(0 1px 5px rgba(0,0,0,.5));
+    -o-filter: drop-shadow(0 1px 5px rgba(0,0,0,.5));
+    filter: drop-shadow(0 1px 5px rgba(0,0,0,.5));
+}
+
+.layer-page-logo {
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-image: url(logo.png);
+    height: 100%;
+    opacity: 0.3;
+}
+
+@media all and (orientation:landscape) {
+
+.bgimage {
+    background-size: 100% 100%;
+}
+
+.layer-page-logo {
+    background-size: 15% auto;
+}
+
+}
+
+@media all and (orientation:portrait) {
+
+.bgimage {
+    background-size: auto 100%;
+}
+
+.layer-page-logo {
+    background-size: 40% auto;
+}
+
+}
