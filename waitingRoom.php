@@ -22,14 +22,7 @@ $sid = $_GET['sid'];
 
 if(!moe_isSessionValid($sid))
 {
-    header('Location: index.php');
-    exit('Invalid session. Backing to homepage.');
-}
-
-if(moe_getSessionPair($sid) != -1)
-{
-    header('Location: index.php');
-    exit('Trying to replicate session. Backing to homepage.');
+    exit('Invalid session.');
 }
 
 ?>
