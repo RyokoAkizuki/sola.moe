@@ -31,6 +31,7 @@ extern "C" {
         
         extension.add("moe_hello",              helloWorld);
         extension.add("moe_createSession",      createSession);
+        extension.add("moe_isSessionValid",     isSessionValid);
         extension.add("moe_seekPair",           seekPair);
         extension.add("moe_getSessionPair",     getSessionPair);
         extension.add("moe_sendMessageToPair",  sendMessageToPair);

@@ -16,6 +16,22 @@
  */
 ?>
 
+<?php
+
+$sid = $_GET['sid'];
+
+if(!moe_isSessionValid($sid))
+{
+    exit('Invalid session.');
+}
+
+if(moe_getSessionPair($sid) != -1)
+{
+    exit('Trying to replicate session.');
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -39,7 +55,7 @@
     <script>
         var paired = false;
         function seekPair(){
-            $.post('ajax_seekPair.php', { "sid" : <?php echo($_GET['sid']); ?> },
+            $.post('ajax_seekPair.php', { "sid" : <?php echo($sid); ?> },
             function(data) {
                 var response = $.parseJSON(data);
                 if(response['paired'] == true)
@@ -56,12 +72,15 @@
         $(document).ready(function() {
             seekPair();
             $(window).on('beforeunload', function(){
-                //return 'Are you sure you want to leave?';
+                if(!paired)
+                {
+                    return 'Are you sure you want to leave?';
+                }
             });
             $(window).on('unload', function(){
                 if(!paired)
                 {
-                    $.post('ajax_closeSession.php', { "sid" : <?php echo($_GET['sid']); ?> });
+                    $.post('ajax_closeSession.php', { "sid" : <?php echo($sid); ?> });
                 }
             });
         });

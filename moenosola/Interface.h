@@ -17,6 +17,7 @@
 #include <phpcpp.h>
 
 Php::Value  createSession(Php::Parameters &params);
+Php::Value  isSessionValid(Php::Parameters &params);
 Php::Value  seekPair(Php::Parameters &params);
 Php::Value  getSessionPair(Php::Parameters &params);
 Php::Value  sendMessageToPair(Php::Parameters &params);

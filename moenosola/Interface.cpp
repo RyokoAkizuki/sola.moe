@@ -43,6 +43,12 @@ Php::Value createSession(Php::Parameters &params)
 }
 
 // bool (int sid)
+Php::Value isSessionValid(Php::Parameters &params)
+{
+    return gMgr.findSession(params[0]) != nullptr;
+}
+
+// bool (int sid)
 Php::Value seekPair(Php::Parameters &params)
 {
     return gMgr.seekPair(params[0]);
