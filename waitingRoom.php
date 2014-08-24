@@ -22,12 +22,14 @@ $sid = $_GET['sid'];
 
 if(!moe_isSessionValid($sid))
 {
-    exit('Invalid session.');
+    header('Location: index.php');
+    exit('Invalid session. Backing to homepage.');
 }
 
 if(moe_getSessionPair($sid) != -1)
 {
-    exit('Trying to replicate session.');
+    header('Location: index.php');
+    exit('Trying to replicate session. Backing to homepage.');
 }
 
 ?>
@@ -52,6 +54,8 @@ if(moe_getSessionPair($sid) != -1)
       <input type="hidden" name="sid" value="<?php echo($_GET['sid']); ?>"/>
     </form>
 
+    <img src="content/theme/pairing.gif"/>
+    
     <script>
         var paired = false;
         function seekPair(){
