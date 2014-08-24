@@ -20,6 +20,13 @@
 
 $sid = (int)$_POST['sid'];
 
+if(!moe_isSessionValid($sid))
+{
+    exit(json_encode(array(
+        'sid' => -1
+    )));
+}
+
 echo(json_encode(array(
     'sid' => $sid,
     'paired' => moe_seekPair($sid),

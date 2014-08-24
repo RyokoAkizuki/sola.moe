@@ -22,7 +22,9 @@ $sid = (int)$_POST['sid'];
 
 if(!moe_isSessionValid($sid))
 {
-    exit('Invalid session.');
+    exit(json_encode(array(
+        'sid' => -1
+    )));
 }
 
 $msg = moe_peekMessage($sid);

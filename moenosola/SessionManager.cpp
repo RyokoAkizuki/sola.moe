@@ -133,7 +133,27 @@ void SessionManager::closeSession(int64_t id)
     }
     {
         std::unique_lock<std::mutex> lock(mPairMutex);
-        mPairs.left.erase(id);
-        mPairs.right.erase(id);
+        auto li = mPairs.left.find(id);
+        {
+            if(li != mPairs.left.end())
+            {
+                {
+                    std::unique_lock<std::mutex> lock(mSessionMutex);
+                    mSessions.erase(li->second);
+                }
+                mPairs.left.erase(li);
+            }
+        }
+        auto ri = mPairs.right.find(id);
+        {
+            if(ri != mPairs.right.end())
+            {
+                {
+                    std::unique_lock<std::mutex> lock(mSessionMutex);
+                    mSessions.erase(ri->second);
+                }
+                mPairs.right.erase(ri);
+            }
+        }
     }
 }

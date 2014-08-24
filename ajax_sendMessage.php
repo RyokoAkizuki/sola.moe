@@ -23,7 +23,9 @@ $msg = $_POST['message'];
 
 if(!moe_isSessionValid($sid))
 {
-    exit('Invalid session.');
+    exit(json_encode(array(
+        'sid' => -1
+    )));
 }
 
 echo(json_encode(array(
