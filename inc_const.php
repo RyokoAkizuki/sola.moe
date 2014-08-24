@@ -18,12 +18,4 @@
 
 <?php
 
-require_once('inc_checkSessionAjax.php');
-
-$msg = moe_peekMessage($sid);
-
-echo(json_encode(array(
-    'sid' => $sid,
-    'pair' => moe_getSessionPair($sid),
-    'message' => $msg
-)));
+$InvalidSession = '00000000-0000-0000-0000-000000000000';

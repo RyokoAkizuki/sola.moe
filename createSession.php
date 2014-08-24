@@ -33,7 +33,7 @@ if($_POST['match'] != 'male' && $_POST['match'] != 'female')
     exit('Unknown seek target.');
 }
 
-require_once("common.php");
+require_once("inc_role.php");
 
 $role = new Role($_POST['role']);
 
@@ -43,8 +43,6 @@ if(!$role->isValid())
 }
 
 $seek = $_POST['match'];
-
-moe_clearExpiredSessions();
 
 $sid = moe_createSession($role->role, $role->sex, $seek);
 

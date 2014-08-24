@@ -18,14 +18,8 @@
 
 <?php
 
-require_once('common.php');
-
-$sid = $_POST['sid'];
-
-if(!moe_isSessionValid($sid))
-{
-    exit('Invalid session.');
-}
+require_once('inc_checkSession.php');
+require_once('inc_role.php');
 
 $role = new Role(moe_getPairRole($sid));
 

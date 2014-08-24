@@ -18,12 +18,7 @@
 
 <?php
 
-$sid = $_GET['sid'];
-
-if(!moe_isSessionValid($sid))
-{
-    exit('Invalid session.');
-}
+require_once('inc_checkSession.php');
 
 ?>
 
@@ -43,7 +38,7 @@ if(!moe_isSessionValid($sid))
   <body>
     <script src="thirdparties/jquery/jquery.min.js"></script>
 
-    <form id="room-redirect" action="room.php" method="post">
+    <form id="room-redirect" action="room.php" method="get">
       <input type="hidden" name="sid" value="<?php echo($_GET['sid']); ?>"/>
     </form>
 

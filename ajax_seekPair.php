@@ -18,14 +18,7 @@
 
 <?php
 
-$sid = $_POST['sid'];
-
-if(!moe_isSessionValid($sid))
-{
-    exit(json_encode(array(
-        'sid' => ''
-    )));
-}
+require_once('inc_checkSessionAjax.php');
 
 echo(json_encode(array(
     'sid' => $sid,
