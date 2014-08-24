@@ -111,11 +111,9 @@ void SessionManager::clearExpiredSessions()
     {
         if(i->second->expired())
         {
-            {
-                std::unique_lock<std::mutex> lock(mPairMutex);
-                mPairs.left.erase(i->second->getId());
-                mPairs.right.erase(i->second->getId());
-            }
+            lock.unlock();
+            closeSession(i->second->getId());
+            lock.lock();
             mSessions.erase(i++);
         }
     }

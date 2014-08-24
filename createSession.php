@@ -44,6 +44,8 @@ if(!$role->isValid())
 
 $seek = $_POST['match'];
 
+moe_clearExpiredSessions();
+
 $sid = moe_createSession($role->role, $role->sex, $seek);
 
 header('Location: waitingRoom.php?sid=' . $sid);

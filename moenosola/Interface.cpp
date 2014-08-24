@@ -126,3 +126,8 @@ void closeSession(Php::Parameters &params)
 {
     gMgr.closeSession(params[0]);
 }
+
+void clearExpiredSessions()
+{
+    gMgr.clearExpiredSessions();
+}

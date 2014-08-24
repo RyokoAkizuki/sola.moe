@@ -24,7 +24,6 @@
 #include <string>
 #include <thread>
 #include <chrono>
-#include <thread>
 #include <boost/bimap.hpp>
 
 enum SEX
@@ -57,7 +56,7 @@ public:
     SEX         getSelfSex()            { return mSex; }
     SEX         getSeekSex()            { return mSeek; }
     void        ping()                  { mLastPing = time(NULL); }
-    bool        expired()               { return (time(NULL) - mLastPing) > 60; }
+    bool        expired()               { return (time(NULL) - mLastPing) > 10; }
     bool        isDisabled()            { return mDisabled; }
     void        disable()               { mDisabled = true; }
     void        sendMessage(const std::string& message)
@@ -93,16 +92,10 @@ protected:
     PairMap                                         mPairs;
     std::atomic<int64_t>                            mIdCounter;
     std::mutex                                      mSessionMutex, mPairMutex;
-    std::thread                                     mCleaner;
 
 public:
     SessionManager() : mIdCounter(0)
     {
-        mCleaner = std::thread([this]() {
-            std::chrono::seconds dura(60);
-            std::this_thread::sleep_for(dura);
-            clearExpiredSessions();
-        });
     }
 
     virtual ~SessionManager() {}
