@@ -44,7 +44,8 @@ $role = new Role(moe_getPairRole($sid));
     <title>Chat</title>
 
     <link rel="stylesheet" href="content/theme/room.css">
-    
+    <link rel="stylesheet" href="thirdparties/notifybar/jquery.notifyBar.css">
+
     <style type="text/css">
     #layer-room-bg {
       background-image: url(<?php echo(randomFile('content/backgrounds')); ?>);
@@ -73,12 +74,26 @@ $role = new Role(moe_getPairRole($sid));
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="thirdparties/jquery/jquery.min.js"></script>
+    <script src="thirdparties/notifybar/jquery.notifyBar.js"></script>
 
     <script>
+      var valid = true;
+
       function peekMessage(){
           $.post('ajax_peekMessage.php', { "sid" : <?php echo($sid); ?> },
           function(data) {
               var response = $.parseJSON(data);
+              if(response['sid'] == -1)
+              {
+                $.notifyBar({
+                  cssClass: "warning",
+                  html: "会话已失效. 对方可能已经退出.<a href=\"index.php\">返回主页</a>",
+                  close: true,
+                  closeOnClick: false
+                });
+                valid = false;
+                return;
+              }
               if(response['message'])
               {
                   $('#chat-text-matched').text(response['message']);
@@ -112,7 +127,10 @@ $role = new Role(moe_getPairRole($sid));
 
         // Clear session.
         $(window).on('beforeunload', function(){
-          return 'Are you sure you want to leave?';
+          if(valid)
+          {
+            return 'Are you sure you want to leave?';
+          }
         });
         $(window).on('unload', function(){
           $.post('ajax_closeSession.php', { "sid" : <?php echo($sid); ?> });
