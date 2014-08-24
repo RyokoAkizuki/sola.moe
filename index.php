@@ -60,8 +60,8 @@ for($i = 0; $i < sizeof($roles); $i++)
           <div id="layer-login-background" class="layer-inner blur container-bgimage bgimage"></div>
           <div id="layer-login-content" class="layer-inner">
             <div id="role-container">
-              <?php echo('<img src="' . $roles[0]->getAvatarPath() . '" class="role-avatar-middle" role="' . $roles[0]->role . '" id="role-select-player"/>' . "\n"); ?>
-              <img src="content/theme/female.png" class="role-avatar-middle" role="female" id="role-select-match"/> 
+              <img class="role-avatar-middle" id="role-select-player"/>
+              <img class="role-avatar-middle" id="role-select-match"/> 
             </div>
             <div id="role-select-submit" class="button">CONTINUE</div>
           </div>

@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-function selectPlayerRole(src, role)
+function selectPlayerRole(role)
 {
-    $('#role-select-player').attr('src', src).attr('role', role);
+    $('#role-select-player').attr('src', 'content/roles/' + role + '/avatar.png').attr('role', role);
     $('#selected-role').attr('value', role);
 }
 
-function selectMatchRole(src, role)
+function selectMatchRole(role)
 {
-    $('#role-select-match').attr('src', src).attr('role', role);
+    $('#role-select-match').attr('src', 'content/theme/' + role + '.png').attr('role', role);
     $('#selected-match').attr('value', role);
 }
 
 $(document).ready(function() {
+    selectPlayerRole($('#selected-role').attr('value'));
+    selectMatchRole($('#selected-match').attr('value'));
+    
     $('#role-select-player').tooltipster({
         trigger: 'click',
         content: $('#role-select-player-list').html(),
@@ -36,7 +39,7 @@ $(document).ready(function() {
         interactive: true,
         functionReady: function() {
           $('.role-select-player').click(function(){
-            selectPlayerRole($(this).attr('src'), $(this).attr('role'));
+            selectPlayerRole($(this).attr('role'));
           })
         }
     });
@@ -49,7 +52,7 @@ $(document).ready(function() {
         interactive: true,
         functionReady: function() {
           $('.role-select-match').click(function(){
-            selectMatchRole($(this).attr('src'), $(this).attr('role'));
+            selectMatchRole($(this).attr('role'));
           })
         }
     });
