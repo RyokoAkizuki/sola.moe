@@ -44,10 +44,12 @@ protected:
     time_t                  mLastPing;
     std::deque<std::string> mMsgQueue;
     std::mutex              mMutex;
+    bool                    mDisabled;
 
 public:
     Session(int64_t id, const std::string& role, SEX sex, SEX seek)
         : mId(id), mRole(role), mSex(sex), mSeek(seek), mLastPing(time(NULL))
+        ,mDisabled(false)
     {}
 
     int64_t     getId()                 { return mId; }
@@ -56,6 +58,8 @@ public:
     SEX         getSeekSex()            { return mSeek; }
     void        ping()                  { mLastPing = time(NULL); }
     bool        expired()               { return (time(NULL) - mLastPing) > 60; }
+    bool        isDisabled()            { return mDisabled; }
+    void        disable()               { mDisabled = true; }
     void        sendMessage(const std::string& message)
     {
         ping();

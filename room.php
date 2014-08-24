@@ -83,7 +83,7 @@ $role = new Role(moe_getPairRole($sid));
           $.post('ajax_peekMessage.php', { "sid" : <?php echo($sid); ?> },
           function(data) {
               var response = $.parseJSON(data);
-              if(response['sid'] == -1)
+              if(response['pair'] == -1)
               {
                 $.notifyBar({
                   cssClass: "warning",

@@ -69,7 +69,8 @@ bool SessionManager::seekPair(int64_t id)
             i.second->getSeekSex() == ptr->getSelfSex() &&
             i.second->getId() != ptr->getId() &&
             !i.second->expired() &&
-            getSessionPair(i.second->getId()) == -1)
+            getSessionPair(i.second->getId()) == -1 &&
+            !i.second->isDisabled())
         {
             paired = i.second->getId();
             lock.unlock();
@@ -137,9 +138,10 @@ void SessionManager::closeSession(int64_t id)
         {
             if(li != mPairs.left.end())
             {
+                auto pair = findSession(li->second);
+                if(pair)
                 {
-                    std::unique_lock<std::mutex> lock(mSessionMutex);
-                    mSessions.erase(li->second);
+                    pair->disable();
                 }
                 mPairs.left.erase(li);
             }
@@ -148,9 +150,10 @@ void SessionManager::closeSession(int64_t id)
         {
             if(ri != mPairs.right.end())
             {
+                auto pair = findSession(ri->second);
+                if(pair)
                 {
-                    std::unique_lock<std::mutex> lock(mSessionMutex);
-                    mSessions.erase(ri->second);
+                    pair->disable();
                 }
                 mPairs.right.erase(ri);
             }
