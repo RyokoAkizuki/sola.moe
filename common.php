@@ -94,6 +94,6 @@ class Role
 
     public function getSuitPath($suit = 'normal')
     {
-        return 'content/roles/' . $this->role . '/' . $suit . '.png';
+        return 'content/roles/' . $this->role . '/suits/' . $suit . '.png';
     }
 }

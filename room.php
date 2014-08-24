@@ -16,7 +16,20 @@
  */
 ?>
 
-<?php require_once('common.php'); ?>
+<?php
+
+require_once('common.php');
+
+$sid = (int)$_POST['sid'];
+
+if(!moe_isSessionValid($sid))
+{
+    exit('Invalid session.');
+}
+
+$role = new Role(moe_getPairRole($sid));
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -28,7 +41,7 @@
     <meta name="author" content="Yukino Hayakawa">
     <link rel="icon" href="content/theme/favicon.jpg">
 
-    <title>Homepage</title>
+    <title>Chat</title>
 
     <link rel="stylesheet" href="content/theme/room.css">
     
@@ -47,16 +60,11 @@
       <div id="layer-room-role-matched" class="layer-inner role-half-big-female-0 drop-shadow"></div>
       <div id="layer-room-chatbox" class="layer-inner vertical-middle-container">
         <div id="layer-room-chatbox-bg" class="layer-inner blur"></div>
-        <!--div id="layer-room-chatbox-text-wrap" class="layer-inner">
-          <div id="layer-room-chatbox-text" class="layer-inner">
-            <span class="chattext">早上好~</span>
-          </div>
-        </div-->
         <div id="chat-text-wrapper" class="layer-inner vertical-middle">
-          <div id="chat-text-matched">嗷嗷嗷嗷</div>
+          <div id="chat-text-matched"></div>
           <div id="chat-text-spliter"></div>
-          <form action="/" method="post">
-            <input type="text" name="input-player" id="chat-text-player"/>
+          <form id="chat-text-submit" action="ajax_sentMessage.php" method="post">
+            <input type="text" name="message" id="chat-text-player"/>
             <input type="submit" class="hidden"/>
           </form>
         </div>
@@ -65,5 +73,54 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="thirdparties/jquery/jquery.min.js"></script>
+
+    <script>
+      function peekMessage(){
+          $.post('ajax_peekMessage.php', { "sid" : <?php echo($sid); ?> },
+          function(data) {
+              var response = $.parseJSON(data);
+              if(response['message'])
+              {
+                  $('#chat-text-matched').text(response['message']);
+              }
+              setTimeout(peekMessage, 3000);
+          });
+      }
+
+      $(document).ready(function() {
+
+        // CAUTION: DO NOT USE 'background' attribute. It will overwrite other background styles.
+        $('#layer-room-role-matched').css('background-image', 'url(<?php echo($role->getSuitPath()); ?>)');
+
+        // Send message.
+        $("#chat-text-submit").submit(function(e) {
+
+          $.post('ajax_sendMessage.php', {
+            "sid" : <?php echo($sid); ?>,
+            "message": $("#chat-text-player").val()
+          })
+          .done(function() {
+            $("#chat-text-player").val('');
+          })
+          .fail(function() {
+            alert( "Message sending failed." );
+          });
+
+          return false;
+
+        });
+
+        // Clear session.
+        $(window).on('beforeunload', function(){
+          return 'Are you sure you want to leave?';
+        });
+        $(window).on('unload', function(){
+          $.post('ajax_closeSession.php', { "sid" : <?php echo($sid); ?> });
+        });
+
+        peekMessage();
+
+      });
+    </script>
   </body>
 </html>
