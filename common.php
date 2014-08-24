@@ -47,11 +47,11 @@ class Role
     function __construct($_role)
     {
         $this->role = $_role;
-        if(strpos($_role, 'female') == 0)
+        if(preg_match('/^female/', $_role))
         {
             $this->sex = 'female';
         }
-        else if(strpos($_role, 'male') == 0)
+        else if(preg_match('/^male/', $_role))
         {
             $this->sex = 'male';
         }
