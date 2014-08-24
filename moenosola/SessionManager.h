@@ -15,16 +15,15 @@
  */
 
 #include <map>
-#include <string>
 #include <ctime>
 #include <memory>
 #include <mutex>
-#include <atomic>
 #include <deque>
 #include <string>
-#include <thread>
-#include <chrono>
 #include <boost/bimap.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 enum SEX
 {
@@ -36,22 +35,26 @@ enum SEX
 class Session
 {
 protected:
-    std::atomic<int64_t>    mId;
+    std::string             mId;
     std::string             mRole;
-    std::atomic<SEX>        mSex;
-    std::atomic<SEX>        mSeek;
+    SEX                     mSex;
+    SEX                     mSeek;
     time_t                  mLastPing;
     std::deque<std::string> mMsgQueue;
     std::mutex              mMutex;
     bool                    mDisabled;
 
 public:
-    Session(int64_t id, const std::string& role, SEX sex, SEX seek)
-        : mId(id), mRole(role), mSex(sex), mSeek(seek), mLastPing(time(NULL))
+    static std::string      InvalidSession;
+
+public:
+    Session(const std::string& role, SEX sex, SEX seek)
+        : mId(to_string(boost::uuids::random_generator()()))
+        ,mRole(role), mSex(sex), mSeek(seek), mLastPing(time(NULL))
         ,mDisabled(false)
     {}
 
-    int64_t     getId()                 { return mId; }
+    std::string getId()                 { return mId; }
     std::string getRole()               { return mRole; }
     SEX         getSelfSex()            { return mSex; }
     SEX         getSeekSex()            { return mSeek; }
@@ -85,26 +88,21 @@ public:
 class SessionManager
 {
 protected:
-    typedef boost::bimap<int64_t, int64_t>          PairMap;
+    typedef boost::bimap<std::string, std::string>  PairMap;
     typedef PairMap::value_type                     Pair;
 
-    std::map<int64_t, std::shared_ptr<Session>>     mSessions;
+    std::map<std::string, std::shared_ptr<Session>> mSessions;
     PairMap                                         mPairs;
-    std::atomic<int64_t>                            mIdCounter;
     std::mutex                                      mSessionMutex, mPairMutex;
 
 public:
-    SessionManager() : mIdCounter(0)
-    {
-    }
-
     virtual ~SessionManager() {}
 
     std::shared_ptr<Session>    createSession(const std::string& role, SEX sex, SEX seek);
-    std::shared_ptr<Session>    findSession(int64_t id);
-    bool                        seekPair(int64_t id);
-    int64_t                     getSessionPair(int64_t id);
+    std::shared_ptr<Session>    findSession(const std::string& id);
+    bool                        seekPair(const std::string& id);
+    std::string                 getSessionPair(const std::string& id);
     void                        clearExpiredSessions();
     int64_t                     getSessionCount() const;
-    void                        closeSession(int64_t id);
+    void                        closeSession(const std::string& id);
 };

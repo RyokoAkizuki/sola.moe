@@ -18,13 +18,13 @@
 
 <?php
 
-$sid = (int)$_POST['sid'];
+$sid = $_POST['sid'];
 $msg = $_POST['message'];
 
 if(!moe_isSessionValid($sid))
 {
     exit(json_encode(array(
-        'sid' => -1
+        'sid' => ''
     )));
 }
 

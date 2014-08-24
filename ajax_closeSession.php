@@ -18,6 +18,6 @@
 
 <?php
 
-$sid = (int)$_POST['sid'];
+$sid = $_POST['sid'];
 
 moe_closeSession($sid);

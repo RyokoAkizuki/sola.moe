@@ -16,9 +16,11 @@
 
 #include "SessionManager.h"
 
+std::string Session::InvalidSession(to_string(boost::uuids::uuid()));
+
 std::shared_ptr<Session> SessionManager::createSession(const std::string& role, SEX sex, SEX seek)
 {
-    auto ptr = std::make_shared<Session>(++mIdCounter, role, sex, seek);
+    auto ptr = std::make_shared<Session>(role, sex, seek);
     
     {
         std::unique_lock<std::mutex> lock(mSessionMutex);
@@ -28,7 +30,7 @@ std::shared_ptr<Session> SessionManager::createSession(const std::string& role, 
     return ptr;
 }
 
-std::shared_ptr<Session> SessionManager::findSession(int64_t id)
+std::shared_ptr<Session> SessionManager::findSession(const std::string& id)
 {
     // should share
     std::unique_lock<std::mutex> lock(mSessionMutex);
@@ -43,9 +45,9 @@ std::shared_ptr<Session> SessionManager::findSession(int64_t id)
     }
 }
 
-bool SessionManager::seekPair(int64_t id)
+bool SessionManager::seekPair(const std::string& id)
 {
-    if(getSessionPair(id) != -1)
+    if(getSessionPair(id) != Session::InvalidSession)
     {
         return true;
     }
@@ -61,7 +63,7 @@ bool SessionManager::seekPair(int64_t id)
 
     auto ptr = iter->second;
     ptr->ping();
-    int64_t paired = -1;
+    std::string paired = Session::InvalidSession;
 
     for(auto i : mSessions)
     {
@@ -69,7 +71,7 @@ bool SessionManager::seekPair(int64_t id)
             i.second->getSeekSex() == ptr->getSelfSex() &&
             i.second->getId() != ptr->getId() &&
             !i.second->expired() &&
-            getSessionPair(i.second->getId()) == -1 &&
+            getSessionPair(i.second->getId()) == Session::InvalidSession &&
             !i.second->isDisabled())
         {
             paired = i.second->getId();
@@ -85,7 +87,7 @@ bool SessionManager::seekPair(int64_t id)
     return false;
 }
 
-int64_t SessionManager::getSessionPair(int64_t id)
+std::string SessionManager::getSessionPair(const std::string& id)
 {
     // should share
     std::unique_lock<std::mutex> lock(mPairMutex);
@@ -100,7 +102,7 @@ int64_t SessionManager::getSessionPair(int64_t id)
     {
         return iterright->second;
     }
-    return -1;
+    return Session::InvalidSession;
 }
 
 void SessionManager::clearExpiredSessions()
@@ -124,7 +126,7 @@ int64_t SessionManager::getSessionCount() const
     return mSessions.size();
 }
 
-void SessionManager::closeSession(int64_t id)
+void SessionManager::closeSession(const std::string& id)
 {
     {
         std::unique_lock<std::mutex> lock(mSessionMutex);

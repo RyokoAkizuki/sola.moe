@@ -20,7 +20,7 @@
 
 require_once('common.php');
 
-$sid = (int)$_POST['sid'];
+$sid = $_POST['sid'];
 
 if(!moe_isSessionValid($sid))
 {
@@ -80,7 +80,7 @@ $role = new Role(moe_getPairRole($sid));
       var valid = true;
 
       function peekMessage(){
-          $.post('ajax_peekMessage.php', { "sid" : <?php echo($sid); ?> },
+          $.post('ajax_peekMessage.php', { "sid" : "<?php echo($sid); ?>" },
           function(data) {
               var response = $.parseJSON(data);
               if(response['pair'] == -1)
@@ -111,7 +111,7 @@ $role = new Role(moe_getPairRole($sid));
         $("#chat-text-submit").submit(function(e) {
 
           $.post('ajax_sendMessage.php', {
-            "sid" : <?php echo($sid); ?>,
+            "sid" : "<?php echo($sid); ?>",
             "message": $("#chat-text-player").val()
           })
           .done(function() {
@@ -133,7 +133,7 @@ $role = new Role(moe_getPairRole($sid));
           }
         });
         $(window).on('unload', function(){
-          $.post('ajax_closeSession.php', { "sid" : <?php echo($sid); ?> });
+          $.post('ajax_closeSession.php', { "sid" : "<?php echo($sid); ?>" });
         });
 
         peekMessage();

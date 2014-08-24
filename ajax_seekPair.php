@@ -18,12 +18,12 @@
 
 <?php
 
-$sid = (int)$_POST['sid'];
+$sid = $_POST['sid'];
 
 if(!moe_isSessionValid($sid))
 {
     exit(json_encode(array(
-        'sid' => -1
+        'sid' => ''
     )));
 }
 

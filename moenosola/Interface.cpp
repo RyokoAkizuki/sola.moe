@@ -35,32 +35,33 @@ SEX stringToSex(const std::string& str)
     }
 }
 
-// int (string role, string sex, string seek)
+// string (string role, string sex, string seek)
 Php::Value createSession(Php::Parameters &params)
 {
     auto ptr = gMgr.createSession(params[0], stringToSex(params[1]), stringToSex(params[2]));
     return ptr->getId();
 }
 
-// bool (int sid)
+// bool (string sid)
 Php::Value isSessionValid(Php::Parameters &params)
 {
-    return gMgr.findSession(params[0]) != nullptr;
+    auto ptr = gMgr.findSession(params[0]);
+    return ptr != nullptr && !ptr->expired();
 }
 
-// bool (int sid)
+// bool (string sid)
 Php::Value seekPair(Php::Parameters &params)
 {
     return gMgr.seekPair(params[0]);
 }
 
-// int (int sid)
+// string (string sid)
 Php::Value getSessionPair(Php::Parameters &params)
 {
     return gMgr.getSessionPair(params[0]);
 }
 
-// bool (int sid, string msg)
+// bool (string sid, string msg)
 Php::Value sendMessageToPair(Php::Parameters &params)
 {
     auto ptr = gMgr.findSession(gMgr.getSessionPair(params[0]));
@@ -72,7 +73,7 @@ Php::Value sendMessageToPair(Php::Parameters &params)
     return true;
 }
 
-// string / bool (int sid)
+// string / bool (string sid)
 Php::Value peekMessage(Php::Parameters &params)
 {
     auto ptr = gMgr.findSession(params[0]);
@@ -88,7 +89,7 @@ Php::Value peekMessage(Php::Parameters &params)
     return msg;
 }
 
-// string / bool (int sid)
+// string / bool (string sid)
 Php::Value getPairRole(Php::Parameters &params)
 {
     auto ptr = gMgr.findSession(gMgr.getSessionPair(params[0]));
@@ -104,7 +105,7 @@ Php::Value getSessionCount()
     return gMgr.getSessionCount();
 }
 
-// array (int sid)
+// array (string sid)
 Php::Value getSessionInfo(Php::Parameters &params)
 {
     auto ptr = gMgr.findSession(params[0]);
@@ -121,7 +122,7 @@ Php::Value getSessionInfo(Php::Parameters &params)
     return r;
 }
 
-// void (int sid)
+// void (string sid)
 void closeSession(Php::Parameters &params)
 {
     gMgr.closeSession(params[0]);

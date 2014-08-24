@@ -52,7 +52,7 @@ if(!moe_isSessionValid($sid))
     <script>
         var paired = false;
         function seekPair(){
-            $.post('ajax_seekPair.php', { "sid" : <?php echo($sid); ?> },
+            $.post('ajax_seekPair.php', { "sid" : "<?php echo($sid); ?>" },
             function(data) {
                 var response = $.parseJSON(data);
                 if(response['paired'] == true)
@@ -77,7 +77,7 @@ if(!moe_isSessionValid($sid))
             $(window).on('unload', function(){
                 if(!paired)
                 {
-                    $.post('ajax_closeSession.php', { "sid" : <?php echo($sid); ?> });
+                    $.post('ajax_closeSession.php', { "sid" : "<?php echo($sid); ?>" });
                 }
             });
         });
