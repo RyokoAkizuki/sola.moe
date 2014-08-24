@@ -1,4 +1,3 @@
-<?php
 /*
  * Copyright 2014 Yukino Hayakawa<tennencoll@gmail.com>
  * 
@@ -14,36 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-?>
 
-<?php
+#include <phpcpp.h>
 
-if($_SERVER['REQUEST_METHOD'] != 'POST')
-{
-    exit();
-}
-
-if(!isset($_POST['role']) || !isset($_POST['match']))
-{
-    exit();
-}
-
-if($_POST['match'] != 'male' && $_POST['match'] != 'female')
-{
-    exit('Unknown seek target.');
-}
-
-require_once("common.php");
-
-$role = new Role($_POST['role']);
-
-if(!$role->isValid())
-{
-    exit('Invalid role.');
-}
-
-$seek = $_POST['match'];
-
-$sid = moe_createSession($role->role, $role->sex, $seek);
-
-header('Location: waitingRoom.php?sid=' . $sid);
+Php::Value  createSession(Php::Parameters &params);
+Php::Value  seekPair(Php::Parameters &params);
+Php::Value  getSessionPair(Php::Parameters &params);
+Php::Value  sendMessageToPair(Php::Parameters &params);
+Php::Value  peekMessage(Php::Parameters &params);
+Php::Value  getPairRole(Php::Parameters &params);
+Php::Value  getSessionCount();
+Php::Value  getSessionInfo(Php::Parameters &params);
+void        closeSession(Php::Parameters &params);

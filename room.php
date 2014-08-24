@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * Copyright 2014 Yukino Hayakawa<tennencoll@gmail.com>
  * 
@@ -16,7 +16,7 @@
  */
 ?>
 
-<? require_once('common.php'); ?>
+<?php require_once('common.php'); ?>
 
 <!DOCTYPE html>
 <html>
@@ -34,7 +34,7 @@
     
     <style type="text/css">
     #layer-room-bg {
-      background-image: url(<? echo(randomFile('content/backgrounds')); ?>);
+      background-image: url(<?php echo(randomFile('content/backgrounds')); ?>);
     }
     </style>
   </head>

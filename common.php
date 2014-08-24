@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * Copyright 2014 Yukino Hayakawa<tennencoll@gmail.com>
  * 
@@ -17,13 +17,6 @@
 ?>
 
 <?php
-
-$conn = new MongoClient();
-$db = $conn->solamoe;
-
-$col_user = $db->user;
-$col_session = $db->session;
-$col_chattext = $db->chattext;
 
 function getFileList($dir)
 {
@@ -103,60 +96,4 @@ class Role
     {
         return 'content/roles/' . $this->role . '/' . $suit . '.png';
     }
-}
-
-class Session
-{
-    public $id;
-    public $role; 
-    public $sex;
-    public $seek;
-    public $lastping;
-
-    function __construct($_id)
-    {
-        $data = $col_session->findOne(array('_id' => new MongoId($_id)));
-        if(!isset($data))
-        {
-            exit('Invalid session.');
-        }
-        $this->id = (string)$data->_id;
-        $this->role = (string)$data->role;
-        $this->sex = (string)$data->sex;
-        $this->seek = (string)$data->seek;
-        $this->lastping = (int)$data->lastping;
-    }
-
-    public function ping()
-    {
-        $time = time();
-        $col_session->update(array('_id' => new MongoId($this->id)), array('lastping' => $time));
-        $this->lastping = $time;
-    }
-
-    public function checkOnline()
-    {
-        return (time()- $this->lastping <= 30);
-    }
-
-    public function destroy()
-    {
-        $col_session->remove(array('_id' => new MongoId($this->id)));
-    }
-}
-
-function createSession(Role $role, $seekfor)
-{
-    $sessionid = new MongoId();
-    global $col_session;
-    $col_session->insert(array(
-        '_id' => $sessionid,
-        'role' => $role->role,
-        'sex' => $role->sex,
-        'seek' => $seekfor,
-        'lastping' => time(),
-        'paired' => false,
-        'pairedsid' => new MongoId('000000000000000000000000')
-        ));
-    return $sessionid;
 }

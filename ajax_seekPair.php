@@ -18,32 +18,11 @@
 
 <?php
 
-if($_SERVER['REQUEST_METHOD'] != 'POST')
-{
-    exit();
-}
+$sid = (int)$_POST['sid'];
 
-if(!isset($_POST['role']) || !isset($_POST['match']))
-{
-    exit();
-}
-
-if($_POST['match'] != 'male' && $_POST['match'] != 'female')
-{
-    exit('Unknown seek target.');
-}
-
-require_once("common.php");
-
-$role = new Role($_POST['role']);
-
-if(!$role->isValid())
-{
-    exit('Invalid role.');
-}
-
-$seek = $_POST['match'];
-
-$sid = moe_createSession($role->role, $role->sex, $seek);
-
-header('Location: waitingRoom.php?sid=' . $sid);
+echo(json_encode(array(
+    'sid' => $sid,
+    'paired' => moe_seekPair($sid),
+    'pair' => moe_getSessionPair($sid),
+    'online' => moe_getSessionCount()
+)));
