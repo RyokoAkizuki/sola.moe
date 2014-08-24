@@ -16,6 +16,8 @@
 #layer-room-role-matched {
     background-attachment: fixed;
     background-repeat: no-repeat;
+    background-size: auto 150%;
+    background-position: center top;
 }
 
 #layer-room-chatbox {
@@ -73,22 +75,4 @@
     border-radius: 3px;
     box-shadow: 0 0 5px #eee;
     opacity: 1.0;
-}
-
-@media all and (orientation:landscape) {
-    
-#layer-room-role-matched {
-    background-size: auto 150%;
-    background-position: center top;
-}
-
-}
-
-@media all and (orientation:portrait) {
-
-#layer-room-role-matched {
-    background-size: 150% auto;
-    background-position: center top;
-}
-
 }
