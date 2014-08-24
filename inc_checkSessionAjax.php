@@ -18,11 +18,13 @@
 
 <?php
 
+require_once('inc_const.php');
+
 $sid = $_REQUEST['sid'];
 
 if(!moe_isSessionValid($sid))
 {
     exit(json_encode(array(
-        'sid' => ''
+        'sid' => $InvalidSession
     )));
 }

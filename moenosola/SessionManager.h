@@ -59,9 +59,10 @@ public:
     SEX         getSelfSex()            { return mSex; }
     SEX         getSeekSex()            { return mSeek; }
     void        ping()                  { mLastPing = time(NULL); }
-    bool        expired()               { return (time(NULL) - mLastPing) > 10; }
+    bool        isExpired()             { return (time(NULL) - mLastPing) > 10; }
     bool        isDisabled()            { return mDisabled; }
     void        disable()               { mDisabled = true; }
+    bool        isValid()               { return !isExpired() && !isDisabled(); }
     void        sendMessage(const std::string& message)
     {
         ping();
@@ -102,7 +103,7 @@ public:
     std::shared_ptr<Session>    findSession(const std::string& id);
     bool                        seekPair(const std::string& id);
     std::string                 getSessionPair(const std::string& id);
-    void                        clearExpiredSessions();
+    void                        clearInvalidSessions();
     int64_t                     getSessionCount() const;
     void                        closeSession(const std::string& id);
 };

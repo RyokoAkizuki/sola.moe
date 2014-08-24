@@ -70,9 +70,8 @@ bool SessionManager::seekPair(const std::string& id)
         if(i.second->getSelfSex() == ptr->getSeekSex() &&
             i.second->getSeekSex() == ptr->getSelfSex() &&
             i.second->getId() != ptr->getId() &&
-            !i.second->expired() &&
-            getSessionPair(i.second->getId()) == Session::InvalidSession &&
-            !i.second->isDisabled())
+            i.second->isValid() &&
+            getSessionPair(i.second->getId()) == Session::InvalidSession)
         {
             paired = i.second->getId();
             lock.unlock();
@@ -95,23 +94,31 @@ std::string SessionManager::getSessionPair(const std::string& id)
     auto iterleft = mPairs.left.find(id);
     if(iterleft != mPairs.left.end())
     {
-        return iterleft->second;
+        auto ptr = findSession(iterleft->second);
+        if(ptr && ptr->isValid())
+        {
+            return iterleft->second;
+        }
     }
     auto iterright = mPairs.right.find(id);
     if(iterright != mPairs.right.end())
     {
-        return iterright->second;
+        auto ptr = findSession(iterright->second);
+        if(ptr && ptr->isValid())
+        {
+            return iterright->second;
+        }
     }
     return Session::InvalidSession;
 }
 
-void SessionManager::clearExpiredSessions()
+void SessionManager::clearInvalidSessions()
 {
     std::unique_lock<std::mutex> lock(mSessionMutex);
 
     for(auto i = mSessions.begin(); i != mSessions.end(); ++i)
     {
-        if(i->second->expired())
+        if(!i->second->isValid())
         {
             lock.unlock();
             closeSession(i->second->getId());
@@ -138,11 +145,6 @@ void SessionManager::closeSession(const std::string& id)
         {
             if(li != mPairs.left.end())
             {
-                auto pair = findSession(li->second);
-                if(pair)
-                {
-                    pair->disable();
-                }
                 mPairs.left.erase(li);
             }
         }
@@ -150,11 +152,6 @@ void SessionManager::closeSession(const std::string& id)
         {
             if(ri != mPairs.right.end())
             {
-                auto pair = findSession(ri->second);
-                if(pair)
-                {
-                    pair->disable();
-                }
                 mPairs.right.erase(ri);
             }
         }

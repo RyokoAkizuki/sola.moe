@@ -20,6 +20,7 @@
 
 require_once('inc_checkSession.php');
 require_once('inc_role.php');
+require_once('inc_const.php');
 
 $role = new Role(moe_getPairRole($sid));
 
@@ -77,7 +78,7 @@ $role = new Role(moe_getPairRole($sid));
           $.post('ajax_peekMessage.php', { "sid" : "<?php echo($sid); ?>" },
           function(data) {
               var response = $.parseJSON(data);
-              if(response['pair'] == -1)
+              if(response['pair'] == '<?php echo($InvalidSession); ?>')
               {
                 $.notifyBar({
                   cssClass: "warning",

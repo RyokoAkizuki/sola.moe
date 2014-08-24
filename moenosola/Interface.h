@@ -26,4 +26,4 @@ Php::Value  getPairRole(Php::Parameters &params);
 Php::Value  getSessionCount();
 Php::Value  getSessionInfo(Php::Parameters &params);
 void        closeSession(Php::Parameters &params);
-void        clearExpiredSessions();
+void        clearInvalidSessions();

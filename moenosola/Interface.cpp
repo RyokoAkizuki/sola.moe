@@ -46,7 +46,7 @@ Php::Value createSession(Php::Parameters &params)
 Php::Value isSessionValid(Php::Parameters &params)
 {
     auto ptr = gMgr.findSession(params[0]);
-    return ptr != nullptr && !ptr->expired();
+    return ptr != nullptr && ptr->isValid();
 }
 
 // bool (string sid)
@@ -118,7 +118,7 @@ Php::Value getSessionInfo(Php::Parameters &params)
     r["role"] = ptr->getRole();
     r["sex"] = ptr->getSelfSex();
     r["seek"] = ptr->getSeekSex();
-    r["expired"] = ptr->expired();
+    r["valid"] = ptr->isValid();
     return r;
 }
 
@@ -128,7 +128,7 @@ void closeSession(Php::Parameters &params)
     gMgr.closeSession(params[0]);
 }
 
-void clearExpiredSessions()
+void clearInvalidSessions()
 {
-    gMgr.clearExpiredSessions();
+    gMgr.clearInvalidSessions();
 }

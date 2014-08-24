@@ -40,7 +40,7 @@ extern "C" {
         extension.add("moe_getSessionCount",    getSessionCount);
         extension.add("moe_getSessionInfo",     getSessionInfo);
         extension.add("moe_closeSession",       closeSession);
-        extension.add("moe_clearExpiredSessions",clearExpiredSessions);
+        extension.add("moe_clearInvalidSessions",clearInvalidSessions);
 
         // return the extension
         return extension;
