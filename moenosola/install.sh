@@ -2,7 +2,7 @@
 
 case "$1" in
 depend)
-    apt-get install php5-dev
+    apt-get install php5-dev libboost-dev
 
     git clone https://github.com/CopernicaMarketingSoftware/PHP-CPP.git
     cd PHP-CPP
